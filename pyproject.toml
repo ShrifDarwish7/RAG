@@ -7,7 +7,15 @@ authors = [
     { name = "Sherif Darwish", email = "" }
 ]
 requires-python = ">=3.9"
-dependencies = []
+dependencies = [
+    "chromadb>=1.5.9",
+    "dotenv>=0.9.9",
+    "langchain>=0.3.30",
+    "langchain-anthropic>=0.3.22",
+    "langchain-community>=0.3.31",
+    "langchain-text-splitters>=0.3.11",
+    "sentence-transformers>=5.1.2",
+]
 
 [project.scripts]
 rag = "rag:main"
