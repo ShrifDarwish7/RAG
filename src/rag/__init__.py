@@ -6,10 +6,10 @@
 # pip install chromadb
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_anthropic import ChatAnthropic
 from langchain.chains import RetrievalQA
+from langchain_huggingface import HuggingFaceEmbeddings, HuggingFaceEndpoint
 from dotenv import load_dotenv
 import os
 
@@ -111,10 +111,12 @@ for i, doc in enumerate(results):
 print("\nStep 6: Setting up RAG pipeline")
 print("-" * 50)
 
-print("Using Anthropic Claude model with the provided API key")
+print("Using Hugging Face model with the provided API key")
 
-# Initialize the LLM with Anthropic Claude
-llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0.5)
+# Initialize the LLM
+
+#  Anthropic Claude
+# llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0.5)
 
 # OpenAI:
 # if "OPENAI_API_KEY" in os.environ:
@@ -124,11 +126,12 @@ llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0.5)
 #     )
 
 # HuggingFace:
-# if "HUGGINGFACEHUB_API_TOKEN" in os.environ:
-#     llm = HuggingFaceHub(
-#         repo_id="google/flan-t5-small",
-#         model_kwargs={"temperature": 0.5, "max_length": 512}
-#     )
+if "HUGGINGFACEHUB_API_TOKEN" in os.environ:
+    llm = HuggingFaceEndpoint(
+        repo_id="google/flan-t5-small",
+        temperature=0.5,
+        max_new_tokens=512,
+    )
 
 # Create the RAG pipeline
 qa_chain = RetrievalQA.from_chain_type(
